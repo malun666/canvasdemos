@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>38改进版本的饼状图</title>
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+			background-color: #f0f0f0;
+			overflow: hidden;
+		}
+	</style>
+	<script src="bower_components/konva/konva.min.js"></script>
+	<script src="js/KonvaExtend.js"></script>
+</head>
+<body>
+	<div id="container">
+	</div>
+
+	<script>
+		//创建舞台
+		var stage = new Konva.Stage({
+			container: 'container',
+			width: window.innerWidth,//全屏
+			height: window.innerHeight
+		});
+
+		//创建层
+		var layer = new Konva.Layer();
+		stage.add(layer);
+	
+		//中心点坐标
+		var cenX = stage.width() / 2;
+		var cenY = stage.height() / 2;
+
+		//创建加载层动画
+		//饼状图数据
+		var data = [{ 
+						name: "前端",
+						value: .25,
+						color: '#e0e'
+					},{
+						name: "php",
+						value: .2,
+						color: 'orange'
+					},{
+						name: "UI",
+						value: .3,
+						color: 'blue'
+					},{
+						name: "C++",
+						value: .05,
+						color: 'green'
+					},{
+						name: "游戏",
+						value: .1,
+						color: 'purple'
+					},{
+						name: "Java",
+						value: .1,
+						color: 'red'
+					}];
+
+		//创建饼状图
+		var maxSize  = stage.width() > stage.height() ? stage.height() : stage.width();
+		var pieChart = new PieChart({
+			data: data,//扇形区域的数据
+			animateDuration: 2,//扇形动画的时间
+			easing: Konva.Easings.EaseIn,//扇形动画的速度规格
+			x: cenX,
+			y: cenY,
+			radius: .3 * maxSize,//半径
+			txtAwayFromWedge: .3 * .3 * maxSize//扇形上的文字的距离圆形的距离
+		});
+		pieChart.addToLayer(layer);
+		pieChart.playAnimate();
+		layer.draw();
+
+		layer.on('click tap', function(){
+			pieChart.playAnimate();
+		});
+
+		
+	</script>
+</body>
+</html>

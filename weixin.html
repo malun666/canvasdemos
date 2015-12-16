@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>41综合微信广告案例</title>
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+			/*background-color: #f0f0f0;*/
+			overflow: hidden;
+		}
+	</style>
+	<!-- <script src="bower_components/konva/konva.min.js"></script> -->
+	<script src="bower_components/konva/konva.js"></script>
+	
+</head>
+<body>	
+	<div id="container">
+	</div>
+
+	<script src="js/KonvaExtend.js"></script>
+	<script src="js/41weixin.js"></script>
+
+	<script>
+	var imgUrl = 'imgs/logo.gif';//分享图片
+	var shareLink = 'www.qq.com';//分享网址
+	var title = '传智播客-前端与移动开发学院';//分享标题
+	var desc = '大前端时代已经到来！';//分享描述
+
+	// 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		// 发送给好友
+		WeixinJSBridge.on('menu:share:appmessage', function(argv){
+			WeixinJSBridge.invoke('sendAppMessage',{
+				"img_url":imgUrl,
+				"img_width":"300",
+				"img_height":"300",
+				"link":shareLink,
+				"desc":desc,
+				"title":title
+			}, function(res) {})
+	    });
+
+		// 分享到朋友圈
+		WeixinJSBridge.on('menu:share:timeline', function(argv){
+			WeixinJSBridge.invoke('shareTimeline',{
+				"img_url":imgUrl,
+				"img_width":"300",
+				"img_height":"300",
+				"link":shareLink,
+				"desc": desc,
+				"title":title
+			}, function(res) {});
+		});
+	}, false)
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>09Canvas案例-绘制图片案例</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			var imgB = new Image();
+			imgB.src = "imgs/b.jpg";
+			imgB.addEventListener("load", function(){
+				ctx.drawImage(imgB,0,100,imgB.width,imgB.height);
+
+				//图片截取
+				//参数： 1、图片对象,2、截取图片x坐标，3、截取图片Y坐标
+				//4、截取图片宽，5、截取图片高，
+				//6、7、绘制图片的X、y坐标， 8、9、绘制图片的宽高
+				ctx.drawImage(imgB, 0,0,68,73, 0,0,68,73);
+
+				//截取一个文字
+				ctx.drawImage(imgB, 75,0,75,75, 400,400,75,75);
+			});	
+		}());
+	</script>
+</body>
+</html>

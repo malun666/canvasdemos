@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>14Canvas案例-圆形渐变</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			var gra = ctx.createRadialGradient(200, 200, 50, 200, 200, 100);
+			gra.addColorStop(0, "#fff");
+			gra.addColorStop(.5, "blue");
+			gra.addColorStop(1, "rgba(255,0,0,.7)");
+			ctx.beginPath();	
+			ctx.arc(200, 200, 120, 0, 2*Math.PI);
+			ctx.fillStyle = gra;
+
+			// ctx.globalAlpha = .9;
+			ctx.fill();
+		}());
+	</script>
+</body>
+</html>

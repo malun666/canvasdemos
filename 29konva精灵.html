@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>29Konva案例-精灵案例</title>
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+			background-color: #f0f0f0;
+			overflow: hidden;
+		}
+	</style>
+	<script src="bower_components/konva/konva.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/javascript">
+		var stage = new Konva.Stage({
+			container: 'container',
+			width: window.innerWidth,
+			height: window.innerHeight
+		});
+
+		var layer = new Konva.Layer();
+		stage.add(layer);
+
+		var img = new Image();
+		img.src = "imgs/1.png";
+		img.addEventListener('load', function(){
+			var runAnimate = {
+				"idel": [],
+				"punch": []
+			};
+			for(var i =0; i<8; i++){
+				runAnimate.idel.push(i*256);
+				runAnimate.idel.push(0);
+				runAnimate.idel.push(256);
+				runAnimate.idel.push(256);
+
+				runAnimate.punch.push(i*256);
+				runAnimate.punch.push(256);
+				runAnimate.punch.push(256);
+				runAnimate.punch.push(256);
+			}
+			var sprite = new Konva.Sprite({
+				x: 200,
+				y: 200,
+				image: img,
+				animation: 'idel',
+				animations: runAnimate,
+				frameRate: 7,
+				frameIndex: 0
+			});
+			
+			layer.add(sprite);
+			sprite.start();
+
+			sprite.on('click',function(e){
+				this.setAnimation('punch');
+			});
+
+			sprite.on("frameIndexChange.fcg",function(){
+				if(this.animation() !='idel' && this.frameIndex() === 7){
+					this.setAnimation("idel");
+				}
+			});
+
+		});
+		
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>21Canvas案例-21画布输出dataurl</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<img src="" id="img-demo" alt="">
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			ctx.strokeRect(20, 20, 100, 200);
+			ctx.fillRect(300, 100, 200, 10);
+
+			var img = document.querySelector("#img-demo");
+			img.src = canvas.toDataURL("image/png");
+		}());
+	</script>
+</body>
+</html>

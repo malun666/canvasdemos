@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>18Canvas案例-旋转画布</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			ctx.strokeRect(100,100,100,100);
+
+			ctx.rotate(30*Math.PI/180);
+
+			ctx.strokeRect(100, 100, 100, 100);
+			ctx.stroke();
+
+			//那如何改成在矩形的左上角进行旋转呢？
+			ctx.rotate(-30*Math.PI/180);//恢复原来的旋转
+			ctx.translate(100, 100);	//位移画布原点，到画布的100,100位置
+			ctx.rotate(30*Math.PI/180);	// 选择30度
+			ctx.strokeRect(0, 0, 20, 20);	//绘制矩形。
+		}());
+	</script>
+</body>
+</html>

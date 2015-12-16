@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>03Canvas案例-绘制表格</title>
+	</head>
+<body>
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			var rows = 60,
+				columns = 90,
+				rectSize = 10;
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			ctx.beginPath();
+			
+			for(var i=0; i<rows; i++) {
+				ctx.moveTo(0,i*rectSize);
+				ctx.lineTo(columns*rectSize , i*rectSize);
+			}
+
+			for(var i=0; i<columns; i++) {
+				ctx.moveTo(i*rectSize,0);
+				ctx.lineTo(i*rectSize,rows*rectSize );
+			}
+			ctx.strokeStyle = "#f4f4f4";
+			ctx.lineWidth = .5;
+
+			ctx.stroke();	
+
+			//绘制折线图
+			var data = [40, 48, 50, 70, 60, 40, 20, 60, 80, 90];
+
+			var x0 = 100, y0 = 400;
+			var maxWidth = 500;
+			var maxHeight = 300;
+			var arrowWidth = 10;
+
+			
+			ctx.beginPath();
+
+			ctx.moveTo(x0, y0);
+			ctx.lineTo(x0 + maxWidth, y0);
+			ctx.lineTo(x0 + maxWidth - arrowWidth, y0 - arrowWidth);
+			ctx.moveTo(x0 + maxWidth, y0);
+			ctx.lineTo(x0 + maxWidth - arrowWidth, y0 + arrowWidth);
+
+			ctx.moveTo(x0, y0);
+			ctx.lineTo(x0, y0 - maxHeight);
+			ctx.lineTo( x0 - arrowWidth, y0 - maxHeight + arrowWidth);
+			ctx.moveTo(x0, y0 - maxHeight);
+			ctx.lineTo( x0 + arrowWidth, y0 - maxHeight + arrowWidth);
+			
+			ctx.strokeStyle = "#4c9";
+			ctx.lineWidth = 2;
+			ctx.stroke();	
+
+			//绘制折线图
+			var points = [];
+			var w = maxWidth / data.length;
+			var h = maxHeight / 100;
+			for(var i=1; i<=data.length; i++){
+				points.push({
+					x: i * w + x0,
+					y: (y0 - data[i] * h)
+				});
+			}
+
+			ctx.beginPath();
+			ctx.moveTo(x0, y0);
+			for(var i=0; i<points.length; i++){
+				ctx.lineTo(points[i].x, points[i].y);
+			}
+			ctx.strokeStyle = "purple";
+			ctx.lineWidth = 1;
+			ctx.stroke();	
+
+		}());
+	</script>
+</body>
+</html>

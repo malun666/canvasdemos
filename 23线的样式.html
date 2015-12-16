@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>22Canvas案例-线的样式</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			ctx.lineWidth = 40;
+			ctx.beginPath();
+			ctx.moveTo(40, 40);
+			ctx.lineCap = "round";
+			ctx.lineTo(400, 40);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.moveTo(40, 140);
+			ctx.lineCap = "butt";
+			ctx.lineTo(400, 140);
+			ctx.stroke();
+			
+			ctx.beginPath();
+			ctx.moveTo(40, 240);
+			ctx.lineCap = "square";
+			ctx.lineTo(400, 240);
+
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.moveTo(40,0);
+			ctx.lineTo(40, 600);
+			ctx.strokeStyle = "red";
+			ctx.lineWidth = .5;
+			ctx.stroke();
+		}());
+	</script>
+</body>
+</html>

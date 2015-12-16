@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>08Canvas案例-绘制图片</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<img id="imgB" src="imgs/b.jpg" height="220" width="335" alt="">
+	
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			//第一种： 创建图片对象的方式
+			var imgB = document.querySelector("#imgB");
+			imgB.addEventListener("load", function(e){
+				ctx.drawImage(imgB, 10,20);
+			});
+
+			//第二种：创建图片的方式
+			var image  = new Image();
+			image.src = "imgs/a.jpg"
+			image.onload = function() {
+				var h;
+				for(var i=0; i<3; i++ ){
+					//向画布绘制一张图片
+					ctx.drawImage(image, 100+i*60, 100+i*60);
+				}
+
+				//绘制图片 设置宽高.注意图像会被拉伸
+				//等比公式
+				h = 100 * image.height / image.width;
+				ctx.drawImage(image, 400, 20, 100,100);   //拉伸
+				ctx.drawImage(image, 500, 20, 100,h);	  //原比例
+			};
+			
+		}());
+	</script>
+
+
+</body>
+</html>

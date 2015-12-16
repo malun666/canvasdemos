@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>37背景图处理</title>
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+			background-color: #f0f0f0;
+			overflow: hidden;
+		}
+	</style>
+	<script src="bower_components/konva/konva.min.js"></script>
+	<script src="js/KonvaExtend.js"></script>
+</head>
+<body>
+	<div id="container">
+	</div>
+
+	<script>
+		//创建舞台
+		var stage = new Konva.Stage({
+			container: 'container',
+			width: window.innerWidth,//全屏
+			height: window.innerHeight
+		});
+
+		//创建背景层
+		var bgLayer = new Konva.Layer();
+		var progressBar = new ProgressBar({
+			x: stage.width() / 8,
+			y: stage.height() / 2,
+			width: stage.width() * 3/4,
+			height: stage.height() / 20,
+			fillColor: '#cdcd00',
+			strokeColor: '#e0ffff', 
+			strokeWidth: 6
+		});
+		progressBar.addToLayerOrGroup(bgLayer);
+		stage.add(bgLayer);
+		bgLayer.batchDraw();
+
+		// var val = 0;
+		// setInterval(function() {
+		// 	progressBar.changeValue(val);
+		// 	// bgLayer.batchDraw();
+		// 	val += .05;
+		// 	if(val >= 1) {
+		// 		val -= 1
+		// 	}
+		// }, 500);
+
+		var imgSource = [{
+			src: '1.png',
+			title: '1'
+		},{
+			src: 'a.jpg',
+			title: '2'
+		},{
+			src: 'b.jpg',
+			title: '3'
+		},{
+			src: 'bg.jpg',
+			title: '4'
+		}];
+
+		var temp = 0;
+
+		for(var i = 0; i < imgSource.length; i++ ) {
+			var img = new Image();
+			img.src = 'imgs/' + imgSource[i].src;
+			img.addEventListener('load', function(){
+				temp++;
+				progressBar.changeValue( (temp / imgSource.length).toFixed(2));
+			});
+		}
+
+		
+	</script>
+</body>
+</html>

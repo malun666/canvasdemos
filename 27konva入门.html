@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>27konva入门</title>
+	<script src="bower_components/konva/konva.js"></script>
+	<style>
+	  body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #F0F0F0;
+        }
+	</style>
+</head>
+<body>
+	<div id="container">
+		
+	</div>
+	<script>
+		//创建舞台
+		var stage = new Konva.Stage({
+			container: 'container',
+			width: window.innerWidth,
+			height: window.innerHeight
+		});
+
+		//创建层
+		var layer = new Konva.Layer();
+		stage.add(layer);
+
+		//绘制矩形
+		var box = new Konva.Rect({
+			x: 50,
+			y: 50,
+			width: 100,
+			height: 100,
+			fill: 'teal',
+			stroke: 'red',
+			strokeWidth: 4,
+			draggable: true
+		});
+
+		layer.add(box);
+
+		//绘制圆形
+		var circle = new Konva.Circle({
+			fill: "#406",
+			radius: 50,	//半径
+			x: 300,		//圆心
+			y: 300
+		});
+		layer.add(circle);
+
+		//绘制椭圆形
+		var ellipse = new Konva.Ellipse({
+			x: 200,
+			y: 200,
+			radius: {
+				x: 300,	//椭圆x轴方向的 半径
+				y: 50	//椭圆y轴方向的半径
+			},
+			fill: "pink",
+			stroke: "yellow",
+			strokeWidth: 4
+		});
+		layer.add(ellipse);
+
+		//绘制扇形
+		var wedge = new Konva.Wedge({
+			x: stage.getWidth() / 2,
+			y: stage.getHeight() / 2,
+			angle: 60,
+			rotation: -90,
+			radius: 100,
+			fill: "#ccc",
+			stroke: 'red',
+			strokeWidth: 3
+		});
+		layer.add(wedge);
+
+		var wedge2 = new Konva.Wedge({
+			x: stage.getWidth() / 2,
+			y: stage.getHeight() / 2,
+			angle: 80,	  //扇形的角度
+			rotation: -30,//旋转角度
+			radius: 100,
+			fill: "#60c",
+			stroke: 'green',
+			strokeWidth: 3
+		});
+		layer.add(wedge2);
+
+		//绘制实线
+		var greenLine = new Konva.Line({
+			//绘制线的点， x1,y1,x2,y2,.....
+			points: [20,20,30,50,60,10,100,100,300,500,500,10],
+			stroke: "green",	
+			lineJoin: "round",
+			lineCap: 'round',
+			strokeWidth: 40	
+		});
+		layer.add(greenLine);
+
+		var redLine = new Konva.Line({
+			//绘制线的点， x1,y1,x2,y2,.....
+			points: [120,120,130,150,160,110,200,200,400,600,600,10],
+			stroke: "red",
+			lineJoin: "miter",
+			lineCap: 'square',
+			strokeWidth: 5,
+			//绘制虚线点： 每50像素一段实线，20像素的空白
+			dash: [50, 20]
+		});
+		layer.add(redLine);
+
+		var blueLine = new Konva.Line({
+			points: [200,200,140,50,100,20,190,10,250,300],
+			stroke: "blue",
+			lineJoin: "bevel",
+			lineCap: 'cutt',
+			strokeWidth: 4,
+			//绘制虚线点： 20像素一段实线，4像素的空白 3像素的点  4像素的空白
+			dash: [20, 4, 3, 4],
+			tension: .5
+		});
+		layer.add(blueLine);
+
+		layer.draw();//把层绘制到 舞台上进行呈现
+
+		box.on('click',function(e){
+			console.dir(e);
+			console.dir(this);
+			_this = this;
+
+			_this.cornerRadius(_this.cornerRadius()+5);
+			layer.draw();
+		});
+
+		console.log( stage.toDataURL("image/jpeg",.4));
+	</script>
+</body>
+</html>

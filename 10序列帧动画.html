@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>10Canvas案例-序列帧动画</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+	<button dir="2" id="btn_up">上</button>
+	<button dir="6" id="btn_down">下</button>
+	<button dir="0" id="btn_left">左</button>
+	<button dir="4" id="btn_right">右</button>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			var deltaTime = 200; //设置帧的间隔时间 ，毫秒
+			var spriteSize = 256;//设置 动画精灵的大小。
+			var direction = 0;// 
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			var img = new Image();
+			img.src = "imgs/1.png";
+			var i = 0;
+			img.addEventListener('load',function(){
+				setInterval(function(){
+					// canvas.width = 900;
+					ctx.clearRect(100,100,256,256);
+					ctx.drawImage(img, i*spriteSize,  direction*spriteSize, 256,256, 100,100,256,256);
+					i++;
+					i%=8;
+				}, deltaTime);
+				// ctx.drawImage(img, 100, 100,400,400);	
+			});
+
+			var btnList = document.querySelectorAll("button");
+			for(var j = 0; j < btnList.length; j++ ){
+				btnList[j].onclick = function(){
+					var dir = this.getAttribute("dir");
+					direction = dir;
+				};
+			}
+		}());
+	</script>
+</body>
+</html>

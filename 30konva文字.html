@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>30Konva案例-文字案例</title>
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+			background-color: #f0f0f0;
+			overflow: hidden;
+		}
+	</style>
+	<script src="bower_components/konva/konva.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/javascript">
+		var stage = new Konva.Stage({
+			container: 'container',
+			width: window.innerWidth,
+			height: window.innerHeight
+		});
+
+		var layer = new Konva.Layer();
+		stage.add(layer);
+		
+		var simpleText = new Konva.Text({
+	      x: stage.getWidth() / 2,
+	      y: 15,
+	      text: 'Simple Text',
+	      fontSize: 30,
+	      fontFamily: 'Calibri',
+	      fill: 'green'
+	    });
+
+	    // to align text in the middle of the screen, we can set the
+	    // shape offset to the center of the text shape after instantiating it
+	    simpleText.setOffset({
+	      x: simpleText.getWidth() / 2
+	    });
+
+	    // since this text is inside of a defined area, we can center it using
+	    // align: 'center'
+	    var complexText = new Konva.Text({
+	      x: 20,
+	      y: 60,
+	      text: 'COMPLEX TEXT\n\nAll the world\'s a stage, and all the men and women merely players. They have their exits and their entrances.',
+	      fontSize: 18,
+	      fontFamily: 'Calibri',
+	      fill: '#555',
+	      width: 300,
+	      padding: 20,
+	      align: 'center'
+	    });
+
+	    var rect = new Konva.Rect({
+	      x: 20,
+	      y: 60,
+	      stroke: '#555',
+	      strokeWidth: 5,
+	      fill: '#ddd',
+	      width: 300,
+	      height: complexText.getHeight(),
+	      shadowColor: 'black',
+	      shadowBlur: 20,
+	      shadowOffset: [10, 10],
+	      shadowOpacity: 0.8,
+	      cornerRadius: 10		//圆角
+	    });
+
+	    // add the shapes to the layer
+	    layer.add(simpleText);
+	    layer.add(rect);
+	    layer.add(complexText);
+		
+		layer.draw();
+	</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>15Canvas案例-背景图填充</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+			var img = new Image();
+			img.src = "imgs/a.jpg";
+			img.onload = function() {
+				var pat=ctx.createPattern(img,"repeat-x");
+				ctx.rect(0,0,950,600);
+				ctx.fillStyle=pat;
+				ctx.fill();
+			};
+
+		}());
+	</script>
+</body>
+</html>

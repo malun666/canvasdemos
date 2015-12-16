@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>13Canvas案例-设置线性渐变</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			//从画布的220,0位置开始渐变，遇到文字进行渐变，遇到形状进行渐变
+			var grd = ctx.createLinearGradient(220, 0, 390, 0);
+
+			grd.addColorStop(0, "teal");
+			grd.addColorStop(.5, "blue");
+			grd.addColorStop(.7, "#ccc");//添加渐变的节点。
+			grd.addColorStop(1, "#999");
+
+			ctx.fillStyle =grd;//关键点，把渐变设置到 填充的样式
+			ctx.font = "200px '微软雅黑'";
+			ctx.fillText("传智播客", 200, 200);
+			ctx.fillRect(200,200, 100, 100);
+		}());
+	</script>
+</body>
+</html>

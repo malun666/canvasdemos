@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>20Canvas案例-画布裁剪.html</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			ctx.rect(100, 100, 200, 200);
+			ctx.clip();
+			ctx.fillRect(150, 150, 300, 300);//超出的部分不能进行绘制。
+			ctx.stroke();
+		}());
+	</script>
+</body>
+</html>

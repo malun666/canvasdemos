@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>35 饼状图案例</title>
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+			background-color: #f0f0f0;
+			overflow: hidden;
+		}
+	</style>
+	<script src="bower_components/konva/konva.js"></script>
+</head>
+<body>
+	<div id="container">
+	</div>
+
+	<script>
+		//创建舞台
+		var stage = new Konva.Stage({
+			container: 'container',
+			width: window.innerWidth,//全屏
+			height: window.innerHeight
+		});
+
+		//中心点坐标
+		var cenX = stage.width() / 2;
+		var cenY = stage.height() / 2;
+		//创建层
+		var layer = new Konva.Layer();
+		stage.add(layer);
+
+		//饼状图数据
+		var data = [{ 
+						name: "前端",
+						value: .25,
+						color: '#e0e'
+					},{
+						name: "php",
+						value: .2,
+						color: 'orange'
+					},{
+						name: "UI",
+						value: .3,
+						color: 'blue'
+					},{
+						name: "C++",
+						value: .05,
+						color: 'green'
+					},{
+						name: "游戏",
+						value: .1,
+						color: 'purple'
+					},{
+						name: "Java",
+						value: .1,
+						color: 'red'
+					}];
+
+		//创建饼状图
+		var pieChart = new PieChart({
+			data: data,//扇形区域的数据
+			animateDuration: 2,//扇形动画的时间
+			easing: Konva.Easings.EaseIn,//扇形动画的速度规格
+			x: cenX,
+			y: cenY,
+			radius: .14 * stage.width(),//半径
+			txtAwayFromWedge: .2 * .14 * stage.width()//扇形上的文字的距离圆形的距离
+		});
+		pieChart.addToLayer(layer);
+		pieChart.playAnimate();
+		layer.draw();
+
+		layer.on('click tap', function(){
+			pieChart.playAnimate();
+		});
+
+		//饼状图
+		function PieChart(option) {
+			var _this = this;
+			if( !option ) {
+				throw new Error('请初始化饼状图的参数');
+			}
+
+			this.animageIndex = 0;
+
+			this.init = function(otpion) {
+				//饼状图数据：[{name:'',value:.2,color:'red'},...]
+				option.data = option.data || [];
+				//动画执行的时间
+				option.animateDuration = option.animateDuration || .8;
+				//动画执行的效果
+				option.easing = option.easing || Konva.Easings.Linear;
+				//x,y坐标
+				option.x = option.x || 0; 
+				option.y = option.y || 0; 
+				//饼状图半径
+				option.radius = option.radius === 0 ? 0 : option.radius || 100; 
+
+				option.txtAwayFromWedge = option.txtAwayFromWedge || 20;
+				//扇区的组
+				this.group = new Konva.Group({
+					x: option.x,
+					y: option.y
+				});
+
+				//文字的组
+				this.TxtGroup = new Konva.Group({
+					x: option.x,
+					y: option.y
+				});
+
+				//默认的旋转角度
+				var tempAngel = -90;
+				//遍历生成所有扇形的对象
+				for(var i = 0; i < option.data.length; i++ ) {
+					var wedgeAngel = option.data[i].value * 360;
+					var wedge = new Konva.Wedge({
+						x: 0,
+						y: 0,
+						radius: option.radius,
+						fill: option.data[i].color,
+						angle: 0,//后面有计算出角度放到数组中
+						opacity: .8,
+						id: option.data[i].name,
+						name: wedgeAngel + '',
+						rotation: tempAngel,
+						visible: true					
+					});
+					this.group.add(wedge);
+
+					//当前 扇形的对象 和扇形的需要旋转的角度
+					// arr.push({value: wedge, angle: option.data[i].value * 360});
+
+					//绘制 文字 
+					//扇形区域的中间
+					var totalAngle = tempAngel + 1/2 * wedgeAngel;
+					//设置文字的x坐标
+					var txtX = Math.cos( totalAngle * Math.PI / 180) * (option.radius + option.txtAwayFromWedge);
+					// 设置文字的y坐标
+					var txtY = Math.sin( totalAngle * Math.PI / 180) * (option.radius + option.txtAwayFromWedge);
+					var txtTitle = option.data[i].name +' ' + option.data[i].value * 100 + '%';
+					var txt = new Konva.Text({
+						x: txtX,
+						y: txtY,
+						fill: option.data[i].color,
+						fontSize: '14px',
+						fontFamily: '微软雅黑',
+						fontStyle: 'bold',
+						align: 'left',
+						id: 'txt_' + option.data[i].name,
+						text: txtTitle,
+						visible: false //默认隐藏
+					});
+					this.TxtGroup.add(txt);
+					console.log(txt.x() + " " + txt.y());
+
+					//设置下一个元素旋转到具体的位置
+					tempAngel += option.data[i].value * 360;
+				}
+			};
+
+			this.init(option);//初始化
+
+			//把当前 饼状图添加到 层
+			this.addToLayer = function(layer) {
+				layer.add(this.group);
+				layer.add(this.TxtGroup);
+				layer.draw();
+			};
+
+			//展示动画
+			this.playAnimate = function() {
+				_this = this;
+				if(this.animageIndex >= data.length) {
+					_this.animageIndex = 0;
+					return;
+				}
+				if(this.animageIndex == 0) {
+					_this.group.getChildren().each(function(value, index){
+						value.angle(0);
+					});
+					_this.TxtGroup.getChildren().each(function(value,index){
+						value.hide();
+					});
+				}
+				this.calleeFn = arguments.callee;//当前函数
+
+				//绘制一个 扇区的动画
+				var wedge = this.group.getChildren()[this.animageIndex];
+				var angel = Number(wedge.name());//扇区的度数
+				wedge.to({
+					angle: angel,
+					duration: angel * option.animateDuration / 360,
+					onFinish: function() {
+						_this.TxtGroup.getChildren()[_this.animageIndex].show();
+						_this.TxtGroup.getParent().draw();
+						_this.animageIndex++;
+						_this.calleeFn();//调用当前函数自身，形成动画队列。
+					}
+				});
+			};
+
+		}
+
+	</script>
+</body>
+</html>

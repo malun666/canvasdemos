@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>01Canvas案例-绘制矩形和三角形</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');	//获得上下文
+
+			canvas.width = 900;		//设置宽高
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			//1、绘制三角形
+			ctx.beginPath();		//开始路径
+			ctx.moveTo(100,100);	//三角形，左顶点
+			ctx.lineTo(300, 100);	//右顶点
+			ctx.lineTo(300, 300);	//底部的点
+			ctx.closePath();		//结束路径
+			ctx.stroke();			//描边路径
+
+			//2、绘制矩形，四个顶点
+			ctx.beginPath();
+			ctx.moveTo(100, 350);
+			ctx.lineTo(300, 350);
+			ctx.lineTo(300, 550);
+			ctx.lineTo(100, 550);
+			ctx.closePath();
+			ctx.stroke();
+		}());
+	</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>07Canvas案例-文字绘制</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			// =S 绘制坐标参照系
+			ctx.beginPath();
+			ctx.moveTo(0,301);
+			ctx.lineTo(900,301);
+			ctx.strokeStyle = "teal";			
+			ctx.stroke();		
+
+			ctx.moveTo(450,0);
+			ctx.lineTo(450,600);
+			ctx.stroke();
+
+			ctx.fillRect(445,295,10,10);
+			// =E 绘制坐标参照系
+
+			//绘制字体
+			ctx.font = '20px "微软雅黑"';
+			ctx.fillStyle = "red";
+			ctx.textBaseline = "top";
+			ctx.fillText("Top-g", 100, 300);
+
+			ctx.textBaseline = "middle";
+			ctx.fillText("middle-g", 200, 300);
+
+			ctx.textBaseline = "bottom";
+			ctx.fillText("bottom-g", 490, 300);
+
+			ctx.textBaseline = "Alphabetic";
+			ctx.fillText("Alphabetic-g", 700, 300);
+
+
+			//绘制字体 设置对齐方式
+			ctx.fillStyle = "purple";
+			ctx.textAlign = "left";
+			ctx.strokeText("left", 450, 400);
+
+			ctx.textAlign = "right";
+			ctx.strokeText("right", 450, 440);
+
+			ctx.textAlign = "start";
+			ctx.strokeText("start", 450, 480);
+
+			ctx.textAlign = "end";
+			ctx.strokeText("end", 450, 520);
+
+			ctx.textAlign = "center";
+			ctx.strokeText("center", 450, 560);
+
+
+		}());
+	</script>
+</body>
+</html>

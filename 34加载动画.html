@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>34加载动画</title>
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+			background-color: #f0f0f0;
+			overflow: hidden;
+		}
+	</style>
+	<script src="bower_components/konva/konva.min.js"></script>
+</head>
+<body>
+	<div id="container">
+	</div>
+
+	<script>
+		//创建舞台
+		var stage = new Konva.Stage({
+			container: 'container',
+			width: window.innerWidth,//全屏
+			height: window.innerHeight
+		});
+
+		//创建层
+		var layer = new Konva.Layer();
+		stage.add(layer);
+
+		var cenX = stage.width() / 2;
+		var cenY = stage.height() / 2;
+
+		var circleRadius = 30;
+
+		//====================面向过程的加载动画版本=====================
+
+		var colors = ["orange", "lightgreen", "lightblue"];
+		var circles = [];
+		for(var i=0; i<3; i++){
+			circles.push(new Konva.Circle({
+				x: cenX + ( i-1 ) * circleRadius * 2,
+				y: cenY,
+				fill: colors[i],
+				radius: circleRadius
+			}));
+		}
+
+		circles.forEach(function(val){
+			layer.add(val);
+		});
+		layer.draw();
+
+		showLoading();
+
+		var isStop = false;
+
+		function showLoading() {
+			if(isStop) {
+				return;
+			}
+			circles[0].setZIndex(2);
+			circles[2].setZIndex(0);
+			circles[0].to({
+				duration: .8,
+				x: cenX + 2 * circleRadius,
+				y: cenY,
+				opacity: .6,
+				scaleY: 1.2,
+				scaleX: 1.2,
+				onFinish : function(){
+					circles[0].setZIndex(0);
+					circles[0].to({
+						duration: .8,
+						x: cenX - 2 * circleRadius,
+						y: cenY,
+						opacity: 1,
+						scaleY: 1,
+						scaleX: 1,
+					});
+				}
+			});
+			circles[2].to({
+				duration: .8,
+				x: cenX - 2 * circleRadius,
+				y: cenY,
+				opacity: .6,
+				scaleY: .8,
+				scaleX: .8,
+				onFinish : function(){
+					circles[2].setZIndex(2);
+					circles[2].to({
+						duration: .8,
+						x: cenX + 2 * circleRadius,
+						y: cenY,
+						opacity: 1,
+						scaleY: 1,
+						scaleX: 1,
+						onFinish: showLoading
+					});
+				}
+			});
+		}
+
+		circles[0].on("click dbclick tap tourchend",function(){
+			isStop = true;
+			// stage.remove(layer);
+			// layer.getChildren().forEach(function(val){
+			// 	val.destroy();
+			// });
+			layer.destroy();
+		});
+		
+
+		//=====================面向对象版本的加载动画==============================
+
+	
+
+
+		// var animate = new Konva.Animation(function(){
+		// 	circles[0]
+		// }, layer);
+
+
+		function LoadingAnimate( option ) {
+			this.loadingGroup = null;
+			this.circleArr = [];
+		
+			//初始化动画组件	
+			this.init( option );
+		}
+
+		LoadingAnimate.prototype = {
+			constructor: LoadingAnimate,
+			init: function( option ) {
+				option.radius = option.radius || 30;
+				option.cenX = option.cenX;
+				option.cenY = option.cenY;
+				option.colors = option.colors || ["orange", "lightgreen", "lightblue"];
+				option.duration = option.duration || 1;
+				option.opactiy = option.opacity || .6;
+				option.scaleRange =  option.scaleRange || .2;
+
+				this.loadingGroup =	new Konva.Group({
+					x: option.cenX,
+					y: option.cenY
+				});
+
+				// var colors = ["orange", "lightgreen", "lightblue"];
+				for( var i = 0; i < 3; i++ ) {
+					var tempCircle = new Konva.Circle({
+						x: ( i-1 ) * option.radius * 2,
+						y: 0,
+						fill: colors[i],
+						radius: option.radius 
+					});
+					this.loadingGroup.add(tempCircle);
+					this.circleArr[i] = tempCircle;
+				}
+
+			},
+			//把动画加载到层中
+			addToLayerOrGroup: function( layer ) {
+				layer.add( this.loadingGroup );
+			},
+			//开始动画
+			playAnimate: function() {
+				var c1 = this.circleArr[0];
+				var c3 = this.circleArr[2];
+				var _this = this;
+
+				c1.setZIndex(2);
+				c3.setZIndex(0);
+				c1.to({
+					duration: .8,
+					x: 2 * c1.radius(),
+					y: 0,
+					opacity: .8,
+					scaleY: 1.2,
+					scaleX: 1.2,
+					onFinish : function() {
+						c1.setZIndex(0);
+						c1.to({
+							duration: .8,
+							x: - 2 * c1.radius(),
+							y: 0,
+							opacity: .8,
+							scaleY: 1,
+							scaleX: 1,
+						});
+					}
+				});
+
+				c3.to({
+					duration: .8,
+					x: - 2 * c3.radius(),
+					y: 0,
+					opacity: .8,
+					scaleY: .8,
+					scaleX: .8,
+					onFinish : function() {
+						c3.setZIndex(2);
+						c3.to({
+							duration: .8,
+							x: 2 * c3.radius(),
+							y: 0,
+							opacity: .8,
+							scaleY: 1,
+							scaleX: 1,
+							onFinish: function() {
+								_this.playAnimate();
+							}
+						});
+					}
+				});
+			}
+
+		};
+
+
+		var loadingDemo2 = new LoadingAnimate({
+			radius: 40,
+			cenX: 100,
+			cenY: 300,
+			colors: ["orange", "lightgreen", "lightblue"],
+			duration: 1,
+			opacity: .8,
+			scaleRange: .3
+		});
+
+		loadingDemo2.addToLayerOrGroup(layer);
+		loadingDemo2.playAnimate();
+
+	</script>
+</body>
+</html>

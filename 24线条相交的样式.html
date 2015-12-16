@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>24Canvas案例-线条相交的样式</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			ctx.beginPath();
+			ctx.lineWidth = 30;
+			ctx.lineJoin = "miter";
+
+			ctx.moveTo(100,100);
+			ctx.lineTo(200, 200);
+			ctx.lineTo(100, 300);
+			ctx.stroke();	
+
+			ctx.beginPath();
+			ctx.lineWidth = 30;
+			ctx.lineJoin = "bevel";
+			ctx.moveTo(200,100);
+			ctx.lineTo(300, 200);
+			ctx.lineTo(200, 300);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = 30;
+			ctx.lineJoin = "round";
+
+			ctx.moveTo(300,100);
+			ctx.lineTo(400, 200);
+			ctx.lineTo(300, 300);
+			ctx.stroke();	
+		}());
+	</script>
+</body>
+</html>

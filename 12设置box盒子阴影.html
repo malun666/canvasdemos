@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>12Canvas案例-12设置box盒子阴影</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			ctx.fillStyle = "rgba(255,0,0, .9)"
+			ctx.shadowColor = "teal";
+			ctx.shadowBlur = 10;
+			ctx.shadowOffsetX = 10;
+			ctx.shadowOffsetY = 10;
+			ctx.fillRect(100, 100, 100, 100);
+
+			var img = new Image();
+			img.src = "imgs/1.png";
+
+			img.onload = function() {
+				ctx.drawImage(img, 200, 200,300,300);
+			};
+		}());
+	</script>
+</body>
+</html>

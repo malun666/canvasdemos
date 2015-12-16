@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>02Canvas案例-画画板</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+
+			canvas.onmousedown = function(e) {
+				var x = e.clientX - canvas.getBoundingClientRect().left;
+				var y = e.clientY - canvas.getBoundingClientRect().top;
+				ctx.beginPath();
+				ctx.moveTo(x, y);
+
+				canvas.onmousemove = function(event) {
+					var x = event.clientX - canvas.getBoundingClientRect().left;
+					var y = event.clientY - canvas.getBoundingClientRect().top;
+					// canvas.clearRect(0, 0, 900, 600);
+					ctx.lineTo(x, y);
+					ctx.stroke();
+				};
+				canvas.onmouseup = function(event) {
+					canvas.onmousemove = null;
+					canvas.onmouseup = null;
+				};
+			};
+		}());
+
+
+	</script>
+</body>
+</html>

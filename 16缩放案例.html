@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>16Canvas案例-缩放案例</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+			ctx.strokeStyle = "red";
+			ctx.strokeRect(100, 100, 100, 100);
+			ctx.strokeText("1", 100, 100);
+
+			ctx.scale(2, 2);	//放到2倍
+			ctx.strokeStyle = "green";
+			ctx.strokeRect(100, 100, 100, 100);
+			ctx.strokeText("2", 100, 100);
+
+			ctx.scale(.5, .5);	//缩放到1/2 回到原来状态
+			ctx.strokeStyle = "blue";
+			ctx.strokeRect(150, 150, 100, 100);
+			ctx.strokeText("3", 150, 150);
+			ctx.stroke();		
+		}());
+
+
+	</script>
+</body>
+</html>

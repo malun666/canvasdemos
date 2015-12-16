@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>19Canvas案例-19矩形旋转</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			ctx.fillStyle = "rgba(255,0,0,.7)";
+			ctx.fillRect(100, 100, 200, 100);
+
+			var angle = 0;
+			setInterval(function(){
+				ctx.save();
+				angle+=10;
+				canvas.width = 900;
+				ctx.translate(200,150);
+				ctx.rotate(angle*Math.PI / 180);
+				ctx.fillRect(-100, -50, 200, 100);
+				ctx.restore();
+
+			},400);
+		}());
+	</script>
+</body>
+</html>

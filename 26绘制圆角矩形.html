@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>26Canvas案例-绘制圆角矩形</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas = document.querySelector('#cavsElem');
+			var ctx = canvas.getContext('2d');
+
+			canvas.width = 900;
+			canvas.height = 600;
+			canvas.style.border = "1px solid #000";
+
+			ctx.beginPath();
+			ctx.moveTo(100,100);
+			ctx.lineTo(200,100);
+			ctx.arcTo(240, 100, 240, 110, 40);
+			ctx.lineTo(240, 300);
+			ctx.stroke();		
+		}());
+	</script>
+</body>
+</html>

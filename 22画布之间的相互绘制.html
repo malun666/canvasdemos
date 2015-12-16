@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>22Canvas案例-画布之间的相互绘制</title>
+	</head>
+<body>
+
+	<div id="container">
+		<canvas id="cavsElem1">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+		<canvas id="cavsElem2">
+			你的浏览器不支持canvas，请升级浏览器
+		</canvas>
+	</div>
+
+	<script>
+		(function(){
+			var canvas1 = document.querySelector('#cavsElem1');
+			var canvas2 = document.querySelector('#cavsElem2');
+			var ctx1 = canvas1.getContext('2d');
+			var ctx2 = canvas2.getContext('2d');
+
+			canvas1.width = 300;
+			canvas1.height = 300;
+			canvas1.style.border = "1px solid #000";
+  
+		    canvas2.width = 300;
+			canvas2.height = 300;
+			canvas2.style.border = "1px solid #000";
+
+			var gra = ctx1.createRadialGradient(30, 30, 3, 30, 35, 20);
+			gra.addColorStop(0, "teal");
+			gra.addColorStop(1, "red");
+			ctx1.fillStyle = gra;
+
+			ctx1.fillRect(20, 20, 40, 40);
+
+			ctx2.drawImage(canvas1, 10, 10);
+		}());
+	</script>
+</body>
+</html>
