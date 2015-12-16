@@ -508,17 +508,6 @@ PieChart.prototype = {
 			//扇形区域的中间
 			var rotationAngle = 0;
 			var totalAngle = tempAngel + 1/2 * wedgeAngel;
-
-			//下面这段代码是根据 角度设置文字旋转方向，已达到不覆盖图形的效果
-			//但是最终显示的效果，文本很不舒服，暂时放弃。后面有时间可以把
-			//这块加上一个标志线就ok了。
-			// if( totalAngle > 90 && totalAngle < 180 ) {
-			// 	rotationAngle = 30;
-			// }else if( totalAngle >= 180 && totalAngle < 270 ) {
-			// 	rotationAngle = -30;
-			// }
-
-
 			//设置文字的x坐标
 			var txtX = Math.cos( totalAngle * Math.PI / 180) * (option.radius + option.txtAwayFromWedge);
 			// 设置文字的y坐标
@@ -528,7 +517,7 @@ PieChart.prototype = {
 				x: txtX,
 				y: txtY,
 				fill: option.data[i].color,
-				fontSize: '14px',
+				fontSize: '16px',
 				fontFamily: '微软雅黑',
 				fontStyle: 'bold',
 				align: 'left',
@@ -537,7 +526,14 @@ PieChart.prototype = {
 				rotation: rotationAngle,
 				visible: false //默认隐藏
 			});
+
 			this.txtGroup.add(txt);
+
+			//下面这段代码是根据 文字的位置设置一下文字的距离原型的位置
+			if( totalAngle > 90 && totalAngle < 270 ) {
+				// rotationAngle = -30;
+				txt.x( txt.x()-txt.getWidth() );
+			}
 
 			//设置下一个元素旋转到具体的位置
 			tempAngel += option.data[i].value * 360;
